@@ -9,16 +9,23 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
-      - name: Test
+      - name: Test relay isolation
         run: npm test
-      - name: Publish
+      - name: Test sandbox net
+        run: npm test --prefix packages/sandbox-net
+      - name: Publish relay isolation
+        run: npm publish --registry=https://registry.npmjs.org/ --loglevel=verbose --fetch-retries=0
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish sandbox net
+        working-directory: packages/sandbox-net
         run: npm publish --registry=https://registry.npmjs.org/ --loglevel=verbose --fetch-retries=0
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

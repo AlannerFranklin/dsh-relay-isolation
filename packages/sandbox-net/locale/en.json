@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Sandbox Network",
+    "description": "Lets a sandboxed agent fetch allowlisted URLs through the host process, so the sandbox keeps its write boundary and the agent still gets network data."
+  }
+}

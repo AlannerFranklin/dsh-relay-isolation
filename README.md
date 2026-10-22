@@ -6,9 +6,17 @@
 
 ## English
 
+> **0.4.0 — provider-agnostic.** The plugin no longer hardcodes AgentRouter, a
+> protocol, or a model list. You pass `provider` (api / baseURL / apiKeyEnv /
+> models); `api: "auto"` probes `/v1/responses` and then `/v1/chat/completions`
+> and records what actually works. `preset: "agentrouter"` stays available for
+> that relay's endpoint switch and User-Agent fence. The host-side network tool
+> moved to the standalone [`dsh-sandbox-net`](packages/sandbox-net) package, and
+> a generated environment installs it automatically.
+
 A DeepSeek Harness bundle that provisions **a separate `DSH_HOME`** for a
-third-party model relay (AgentRouter), so relay traffic never runs inside your
-main Harness profile.
+third-party model relay or any OpenAI-compatible endpoint, so relay traffic never
+runs inside your main Harness profile.
 
 ### Why a separate home, not just a separate profile
 

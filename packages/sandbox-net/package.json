@@ -1,0 +1,55 @@
+{
+  "name": "dsh-sandbox-net",
+  "version": "0.1.0",
+  "description": "Give a sandboxed DeepSeek Harness agent network egress: one fetch tool that runs the request in the host process, against a configurable host allowlist, while the sandbox keeps its write boundary.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlannerFranklin/dsh-relay-isolation.git",
+    "directory": "packages/sandbox-net"
+  },
+  "homepage": "https://github.com/AlannerFranklin/dsh-relay-isolation/tree/main/packages/sandbox-net#readme",
+  "bugs": {
+    "url": "https://github.com/AlannerFranklin/dsh-relay-isolation/issues"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "icon": "icon.svg",
+  "keywords": [
+    "dsh",
+    "deepseek",
+    "harness",
+    "dsh-plugin",
+    "dsh-bundle",
+    "sandbox",
+    "network",
+    "egress",
+    "fetch"
+  ],
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "locale",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/net.test.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

@@ -1,11 +1,10 @@
 /**
- * Controlled egress for a sandboxed agent.
+ * Host-side egress for a sandboxed agent.
  *
- * The Windows sandbox hands the shell a token without network capability, so a
- * command inside it cannot reach the internet. Host plugins, however, run in the
- * host process. This module performs the request there, on the agent's behalf,
- * against an explicit host allowlist — the sandbox keeps its write boundary and
- * the agent still gets the data it needs.
+ * The Windows sandbox hands shell commands a token without network capability,
+ * so nothing inside it can reach the internet. Host plugins run in the host
+ * process, which does have network: this module makes the request there, on the
+ * agent's behalf, bounded by an explicit host allowlist.
  */
 export const DEFAULT_ALLOWED_HOSTS = Object.freeze([
   'registry.npmjs.org',
@@ -14,9 +13,14 @@ export const DEFAULT_ALLOWED_HOSTS = Object.freeze([
   'raw.githubusercontent.com',
   'codeload.github.com',
   'objects.githubusercontent.com',
-  'awesome-dsh-plugin.com',
   'cdn.jsdelivr.net',
-  'dshmarket.com',
+  'unpkg.com',
+  'pypi.org',
+  'files.pythonhosted.org',
+  'crates.io',
+  'static.crates.io',
+  'huggingface.co',
+  'cdn-lfs.huggingface.co',
 ]);
 
 export function hostAllowed(url, allowed = DEFAULT_ALLOWED_HOSTS) {
@@ -27,6 +31,7 @@ export function hostAllowed(url, allowed = DEFAULT_ALLOWED_HOSTS) {
     return false;
   }
   if (parsed.protocol !== 'https:') return false;
+  if (allowed.includes('*')) return true;
   return allowed.includes(parsed.hostname);
 }
 
@@ -75,6 +80,7 @@ export async function fetchText(url, options = {}) {
   const allowed = options.allowed ?? DEFAULT_ALLOWED_HOSTS;
   const maxBytes = options.maxBytes ?? 60000;
   const timeoutMs = options.timeoutMs ?? 20000;
+  const userAgent = options.userAgent ?? 'dsh-sandbox-net';
   const impl = options.fetchImpl ?? fetch;
 
   if (!hostAllowed(url, allowed)) {
@@ -89,7 +95,7 @@ export async function fetchText(url, options = {}) {
     const response = await impl(url, {
       signal: controller.signal,
       redirect: 'follow',
-      headers: { 'user-agent': 'dsh-relay-isolation', accept: '*/*' },
+      headers: { 'user-agent': userAgent, accept: '*/*' },
     });
     const { text, truncated } = await readCapped(response, maxBytes);
     return {

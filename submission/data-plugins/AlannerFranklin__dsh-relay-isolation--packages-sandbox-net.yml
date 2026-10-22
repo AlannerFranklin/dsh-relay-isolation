@@ -1,0 +1,6 @@
+url: https://github.com/AlannerFranklin/dsh-relay-isolation/tree/main/packages/sandbox-net
+name: AlannerFranklin/dsh-relay-isolation#sandbox-net
+category: tools
+description:
+  en: 'Gives a sandboxed agent network egress: the fetch tool runs in the host process against a configurable allowlist, so the sandbox keeps its write boundary.'
+  zh: '给沙箱内的智能体一条出网通道：抓取工具在宿主进程执行、目标主机受白名单约束，沙箱的写入边界不变。'

@@ -1,0 +1,5 @@
+# dsh-sandbox-net bundle patch — mounts one Host plugin row.
+- insert:
+    - id: sandbox-net
+      name: dsh-sandbox-net
+      config: {}

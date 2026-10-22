@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Sandbox Network">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0f1a14"/>
+  <rect x="9" y="9" width="30" height="24" rx="5" fill="none" stroke="#48bb78" stroke-width="3"/>
+  <circle cx="44" cy="44" r="11" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+  <path d="M33 33 L36 36" stroke="#48bb78" stroke-width="3" stroke-linecap="round"/>
+  <path d="M39 39 L41 41" stroke="#48bb78" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 3"/>
+</svg>
