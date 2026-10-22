@@ -1,0 +1,6 @@
+url: https://github.com/AlannerFranklin/dsh-relay-isolation
+name: AlannerFranklin/dsh-relay-isolation
+category: tools
+description:
+  en: 'Provisions a separate DSH_HOME, profile, and launcher for a model relay, so relay traffic never shares your main Harness sessions or credentials.'
+  zh: '为模型中转站生成独立的 DSH_HOME、profile 与启动器，让中转站流量不再共享主环境的会话与凭据。'
