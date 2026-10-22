@@ -68,6 +68,23 @@ transport for the domestic endpoint, tool-schema repair) come from
 [`dsh-llm-agentrouter`](https://github.com/aqiu817/dsh-llm-agentrouter). This
 plugin configures it; it does not reimplement it.
 
+### Permissions it gets
+
+The isolated environment is provisioned to be **useful inside its box and unable
+to reach outside it**:
+
+| Capability | Default | Detail |
+| --- | --- | --- |
+| Workspace read/write | yes | The launcher `cd`s into `<home>/workspace`; the sandbox pins `workspaceRoot` to that directory |
+| Command execution | yes | Sandboxed; approval `ask` fails closed when nobody answers |
+| Outbound npm / GitHub | yes | Needed to install the relay route; model traffic already goes to the relay |
+| Credentials | only `AGENTROUTER_API_KEY` | Other keys in the main home are never copied |
+
+**What it does not guarantee:** DSH's `workspace-write` bounds *writes*, not
+*reads*. An agent inside the isolated environment can still read paths outside
+its workspace. For a real boundary, run the launcher as a separate OS user or in
+a VM.
+
 ### Limits
 
 - It cannot isolate the **running** host: `DSH_HOME` is fixed when a process
@@ -119,6 +136,21 @@ dsh plugin --profile <你的 profile> add dsh-relay-isolation
 
 启动器首次运行会把 `dsh-llm-agentrouter` 装进隔离 profile，然后用 `--port 0`
 起一个自己的界面。
+
+### 权限模型
+
+隔离环境是「盒子内够用、盒子外够不着」：
+
+| 能力 | 默认 | 说明 |
+| --- | --- | --- |
+| 工作目录读写 | ✅ | 启动器会 `cd` 到 `<home>/workspace`，沙箱的 `workspaceRoot` 就是它 |
+| 命令执行 | ✅ | 沙箱内执行；审批 `ask`，无人应答时 fail closed |
+| 出网 npm / GitHub | ✅ | 装中转站路由需要；模型流量本来就走中转站 |
+| 凭据 | 只有 `AGENTROUTER_API_KEY` | 主 home 里的其他 key 一律不复制 |
+
+**它不保证的事**：DSH 的 `workspace-write` 限制的是**写**，不是**读**。隔离环境里的
+agent 仍然可能读到工作区之外的路径。要拿到真正的边界，请用独立的操作系统账户或
+虚拟机运行这个启动器。
 
 ### 边界
 

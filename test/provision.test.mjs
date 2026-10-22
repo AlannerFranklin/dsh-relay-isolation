@@ -39,8 +39,13 @@ test('setup writes a working profile and copies only the relay key', () => {
     assert.ok(fs.existsSync(path.join(profileDir, name)), `${name} exists`);
   }
 
-  const manifest = JSON.parse(fs.readFileSync(path.join(profileDir, 'package.json'), 'utf8'));
-  assert.deepEqual(manifest.dsh.profile.bundles, [
+  assert.ok(fs.existsSync(result.workspace), 'the dedicated workspace exists');
+  assert.equal(result.workspace, path.join(result.home, 'workspace'));
+  const launcherText = fs.readFileSync(result.launcher, 'utf8');
+  assert.match(launcherText, /workspace/);
+  assert.match(launcherText, /cd /, 'the launcher starts inside the workspace');
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(profileDir, 'package.json'), 'utf8'));  assert.deepEqual(manifest.dsh.profile.bundles, [
     '@deepseek-ai/dsh-base',
     '@deepseek-ai/dsh-web-app',
     'dsh-llm-agentrouter',
