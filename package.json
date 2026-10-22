@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "dsh-relay-isolation",
   "version": "0.1.0",
   "description": "Provision a separate DSH_HOME (minimal profile + launcher) for the AgentRouter relay, so the relay never runs inside your main Harness profile.",
@@ -36,7 +36,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test test/provision.test.mjs"
+    "test": "node --test test/provision.test.mjs test/tool.test.mjs"
   },
   "dsh": {
     "bundle": {
