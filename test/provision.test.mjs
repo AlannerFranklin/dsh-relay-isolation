@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { setup, status, remove, isolatedHome, readRelayKey } from '../lib/provision.js';
+import { setup, status, remove, isolatedHome, readRelayKey, resolveCli } from '../lib/provision.js';
 
 function fixture({ key = 'sk-test-1234567890' } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'dsh-relay-isolation-'));
@@ -107,4 +107,16 @@ test('remove refuses without force and deletes with it', () => {
 test('setup refuses to target the main home itself', () => {
   const { baseHome, options } = fixture();
   assert.throws(() => setup({ ...options, home: baseHome }), /must differ/);
+});
+
+test('resolveCli falls back to the default desktop installation outside the host', () => {
+  const localAppData = 'C:\\Users\\X\\AppData\\Local';
+  const expected = path.join(localAppData, 'Programs', 'DeepSeek Harness', 'resources', 'runtime', 'cli', 'bin', 'dsh.cmd');
+  const resolved = resolveCli({
+    env: { LOCALAPPDATA: localAppData },
+    execPath: 'C:\\Program Files\\nodejs\\node.exe',
+    platform: 'win32',
+    exists: (candidate) => candidate === expected,
+  });
+  assert.equal(resolved, expected);
 });
