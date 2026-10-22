@@ -68,6 +68,33 @@ transport for the domestic endpoint, tool-schema repair) come from
 [`dsh-llm-agentrouter`](https://github.com/aqiu817/dsh-llm-agentrouter). This
 plugin configures it; it does not reimplement it.
 
+### Network inside the sandbox
+
+The Windows sandbox hands shell commands a token without network capability, so
+`curl` inside the isolated environment cannot reach anything. Raising the mode
+to `danger-full-access` would fix that by removing the sandbox — the wrong trade.
+
+Instead the bundle registers a second tool, `relay_fetch`, which performs the
+request **in the host process** (unsandboxed) against an explicit allowlist:
+
+| Host | Why |
+| --- | --- |
+| `registry.npmjs.org` | package metadata and tarballs |
+| `api.github.com`, `github.com`, `raw.githubusercontent.com` | repository discovery and file reads |
+| `cdn.jsdelivr.net`, `awesome-dsh-plugin.com`, `dshmarket.com` | plugin catalog |
+
+GET only, HTTPS only, 60 KB per call by default, 20 s timeout. The write boundary
+is unchanged: the sandbox still confines the agent to its workspace.
+
+Configuration:
+
+```yaml
+- id: relay-isolation
+  name: dsh-relay-isolation
+  config:
+    allowedHosts: ['registry.npmjs.org']   # replaces the default list
+```
+
 ### Permissions it gets
 
 The isolated environment is provisioned to be **useful inside its box and unable
@@ -136,6 +163,22 @@ dsh plugin --profile <你的 profile> add dsh-relay-isolation
 
 启动器首次运行会把 `dsh-llm-agentrouter` 装进隔离 profile，然后用 `--port 0`
 起一个自己的界面。
+
+### 沙箱里的网络
+
+Windows 沙箱交给命令的是**无网络能力**的令牌，所以隔离环境里 `curl` 连不出去。把模式提到
+`danger-full-access` 能解决，但那是拿掉沙箱——方向反了。
+
+本 bundle 注册第二个工具 `relay_fetch`：请求在**宿主进程**里发出（不受沙箱限制），目标
+主机走白名单（npm registry、GitHub、插件目录），GET only、HTTPS only、默认 60 KB、
+20 秒超时。写入边界不变——沙箱仍然把 agent 锁在它的工作区里。
+
+```yaml
+- id: relay-isolation
+  name: dsh-relay-isolation
+  config:
+    allowedHosts: ['registry.npmjs.org']   # 替换默认列表
+```
 
 ### 权限模型
 

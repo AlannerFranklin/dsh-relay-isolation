@@ -1,7 +1,7 @@
 {
   "name": "dsh-relay-isolation",
-  "version": "0.2.0",
-  "description": "Provision a separate DSH_HOME (minimal profile + launcher) for the AgentRouter relay, so the relay never runs inside your main Harness profile.",
+  "version": "0.3.0",
+  "description": "Provision a separate DSH_HOME (minimal profile + launcher) for the AgentRouter relay, and give the sandboxed agent controlled network egress.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -30,7 +30,8 @@
     "agentrouter",
     "relay",
     "isolation",
-    "profile"
+    "sandbox",
+    "network"
   ],
   "files": [
     "lib",
@@ -44,7 +45,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test test/provision.test.mjs test/tool.test.mjs"
+    "test": "node --test test/provision.test.mjs test/tool.test.mjs test/net.test.mjs"
   },
   "dsh": {
     "bundle": {
