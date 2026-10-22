@@ -63,6 +63,8 @@ test('setup writes a provider-agnostic profile and copies only the relay key', a
   assert.match(patch, /model: m-one/);
   assert.match(patch, /api: openai-completions/);
   assert.match(patch, /baseURL: https:\/\/relay\.test\/v1/);
+  assert.match(patch, /- id: m-one/);
+  assert.doesNotMatch(patch, /undefined/);
   assert.doesNotMatch(patch, /llm-agentrouter/);
 
   const credentials = fs.readFileSync(path.join(result.home, '.credentials.yaml'), 'utf8');

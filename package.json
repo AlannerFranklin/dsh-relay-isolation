@@ -1,6 +1,6 @@
 {
   "name": "dsh-relay-isolation",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Provision a separate DSH_HOME (minimal profile + launcher) for the AgentRouter relay, and give the sandboxed agent controlled network egress.",
   "type": "module",
   "license": "MIT",
