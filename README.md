@@ -120,6 +120,17 @@ to reach outside it**:
 its workspace. For a real boundary, run the launcher as a separate OS user or in
 a VM.
 
+### Relay-side limits
+
+The Responses API is stateful: a follow-up request may reference an item created
+by the previous one. A relay that spreads requests across several upstream
+resources breaks that, and the upstream answers *"The requested item was created
+under a different Azure OpenAI resource"*. No profile setting fixes this — the
+relay has to pin a conversation to one upstream. Note also that `supportsStore`
+is a completions-only switch: `openai-responses` rejects it and accepts
+`supportsDeveloperRole`, `supportsMaxOutputTokens`, `supportsStrictMode`,
+`supportsLongCacheRetention`.
+
 ### Limits
 
 - It cannot isolate the **running** host: `DSH_HOME` is fixed when a process
@@ -202,6 +213,15 @@ Windows 沙箱交给命令的是**无网络能力**的令牌，所以隔离环�
 **它不保证的事**：DSH 的 `workspace-write` 限制的是**写**，不是**读**。隔离环境里的
 agent 仍然可能读到工作区之外的路径。要拿到真正的边界，请用独立的操作系统账户或
 虚拟机运行这个启动器。
+
+### 中转站侧的限制
+
+Responses API 是有状态的：后续请求可能引用上一跳创建的 item。如果中转站把请求分散到多个
+上游资源上，这一点就会被打破，上游会回 *"The requested item was created under a different
+Azure OpenAI resource"*。**这不是配置能修的**——得让中转站把同一段对话固定到同一个上游。
+另外 `supportsStore` 是 completions 专有开关，`openai-responses` 不接受，它只接受
+`supportsDeveloperRole`、`supportsMaxOutputTokens`、`supportsStrictMode`、
+`supportsLongCacheRetention`。
 
 ### 边界
 
