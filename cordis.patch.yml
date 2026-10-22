@@ -1,0 +1,9 @@
+# dsh-relay-isolation bundle patch — mounts one Host plugin row.
+#
+# The row itself writes nothing at install time: it only registers the
+# `relay_isolation` tool, which an agent (or you, from a conversation) calls to
+# create / inspect / remove a separate DSH_HOME for a relay profile.
+- insert:
+    - id: relay-isolation
+      name: dsh-relay-isolation
+      config: {}

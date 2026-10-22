@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "中转站隔离环境",
+    "description": "为 AgentRouter 中转站生成独立的 DSH_HOME、profile 与启动器，让中转站不再共享主环境的会话与凭据。"
+  }
+}

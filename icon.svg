@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Relay Isolation">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#101720"/>
+  <circle cx="21" cy="22" r="7" fill="none" stroke="#4fd1c5" stroke-width="3"/>
+  <circle cx="43" cy="42" r="7" fill="none" stroke="#f6ad55" stroke-width="3"/>
+  <line x1="26" y1="26" x2="38" y2="37" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6"/>
+  <line x1="3" y1="32" x2="61" y2="32" stroke="#2d3748" stroke-width="2" stroke-dasharray="6 5"/>
+</svg>

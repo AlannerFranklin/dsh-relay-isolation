@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Relay Isolation",
+    "description": "Creates a separate DSH_HOME, profile, and launcher for the AgentRouter relay, so the relay never shares your main Harness sessions or credentials."
+  }
+}
